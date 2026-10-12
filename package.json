@@ -1,0 +1,31 @@
+{
+  "name": "alumni-directory",
+  "version": "2.0.0",
+  "description": "可复用的校友通讯录。数据库、域名和成员数据由部署方自行配置。",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "create-admin": "node scripts/create-admin.js",
+    "migrate-roster": "node scripts/migrate-roster.js",
+    "audit-roster": "node scripts/audit-roster.js",
+    "backup-state": "node scripts/backup-state.js",
+    "verify-backup": "node scripts/verify-backup.js"
+  },
+  "dependencies": {
+    "@cloudbase/js-sdk": "^3.8.0",
+    "@cloudbase/node-sdk": "^3.18.3",
+    "pinyin-pro": "^3.27.0",
+    "ws": "^8.21.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "license": "ISC"
+}

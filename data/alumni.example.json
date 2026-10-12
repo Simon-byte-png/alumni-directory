@@ -1,0 +1,24 @@
+{
+  "_note": "仅供本地开发的虚构数据，不得替代正式校友基线。",
+  "records": [
+    {
+      "id": "demo-0001",
+      "name": "测试成员",
+      "edu": "示例大学",
+      "cohort": "2026 届",
+      "cohortYear": "2026",
+      "status": "工作",
+      "industry": "人工智能",
+      "org": "示例机构",
+      "doing": "测试校友通讯录",
+      "city": "杭州",
+      "cityNorm": "杭州",
+      "willingContact": "不愿意",
+      "contact": "",
+      "offer": "",
+      "want": "认识校友",
+      "hiring": "",
+      "message": "这是虚构数据"
+    }
+  ]
+}

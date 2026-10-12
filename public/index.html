@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校友通讯录</title>
+<link rel="icon" href="./logo.svg">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<div id="gate" class="gate">
+  <div class="gate-card gate-card-wide">
+    <img class="gate-logo" src="./logo.svg" alt="校友通讯录">
+    <h2>校友通讯录</h2>
+    <p class="gate-sub">仅限成员使用</p>
+
+    <div class="gate-tabs" role="tablist">
+      <button id="loginTab" class="gate-tab active" type="button" role="tab" aria-selected="true" aria-controls="loginPanel">账号登录</button>
+      <button id="registerTab" class="gate-tab" type="button" role="tab" aria-selected="false" aria-controls="registerPanel">新成员注册</button>
+    </div>
+
+    <section id="loginPanel">
+      <p id="loginNotice" class="login-notice hidden" role="status"></p>
+      <form id="loginForm" autocomplete="on">
+        <label class="form-field">账号
+          <input id="loginUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="账号">
+        </label>
+        <label class="form-field">密码
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="密码">
+        </label>
+        <button type="submit" class="btn-primary" id="loginBtn">登录</button>
+        <button type="button" class="btn-secondary hidden" id="takeOverBtn">退出旧设备并登录</button>
+      </form>
+      <p id="loginErr" class="gate-err hidden" role="alert"></p>
+      <p class="gate-foot">账号异常或忘记密码？请联系管理员处理。</p>
+    </section>
+
+    <section id="registerPanel" class="hidden">
+      <div id="registerProfile">
+        <p class="profile-intro">带 * 的资料为必填。姓名只填中文名，请勿附英文名，联系方式至少包含一个常用邮箱；其余资料可按实际情况填写，再回答 3 道内部题，答题通过后会自动开户。</p>
+        <form id="registerForm">
+          <p id="registerDraftNotice" class="gate-foot hidden" role="status"></p>
+          <div class="profile-grid">
+            <label class="form-field">姓名 *
+              <input id="registerName" name="name" type="text" autocomplete="name" maxlength="40" placeholder="只填中文名" required>
+            </label>
+            <label class="form-field">届别 *
+              <input id="registerCohort" name="cohort" type="text" maxlength="40" placeholder="例如：2024 届" required>
+            </label>
+            <label class="form-field">院系 / 校友身份 *
+              <input name="edu" type="text" maxlength="100" placeholder="例如：浙江大学管理学院" required>
+            </label>
+            <label class="form-field">当前状态 *
+              <input name="status" type="text" maxlength="60" placeholder="例如：工作、创业、在校" required>
+            </label>
+            <label class="form-field">行业 / 方向 *
+              <input name="industry" type="text" maxlength="120" placeholder="例如：人工智能、消费、投资" required>
+            </label>
+            <label class="form-field">公司 / 机构
+              <input name="org" type="text" maxlength="120">
+            </label>
+            <label class="form-field full">目前主要在做的事 *
+              <textarea name="doing" maxlength="300" placeholder="简单介绍你目前的工作、项目或研究" required></textarea>
+            </label>
+            <label class="form-field">所在城市 *
+              <input name="city" type="text" maxlength="80" placeholder="例如：杭州" required>
+            </label>
+            <label class="form-field">是否愿意被其他校友联系 *
+              <select name="willingContact" required>
+                <option value="">请选择</option>
+                <option value="愿意">愿意</option>
+                <option value="不愿意">不愿意</option>
+              </select>
+            </label>
+            <label class="form-field full">联系方式（至少填写邮箱） *
+              <input name="contact" type="text" maxlength="200" placeholder="例如：name@example.com（可同时填写微信/电话）" required>
+            </label>
+            <label class="form-field full">可以提供的帮助
+              <textarea name="offer" maxlength="300"></textarea>
+            </label>
+            <label class="form-field full">希望获得的帮助
+              <textarea name="want" maxlength="300"></textarea>
+            </label>
+            <label class="form-field full">招聘 / 合作需求
+              <textarea name="hiring" maxlength="300"></textarea>
+            </label>
+            <label class="form-field full">想说的话
+              <textarea name="message" maxlength="500"></textarea>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary" id="quizStartBtn">资料填好了，开始答题</button>
+        </form>
+      </div>
+
+      <form id="quizForm" class="hidden">
+        <div class="quiz-heading">
+          <strong>请回答下面 3 道题</strong>
+          <span id="quizAttempts"></span>
+        </div>
+        <p id="quizFeedback" class="quiz-feedback hidden" role="status"></p>
+        <div id="quizQuestions"></div>
+        <button type="submit" class="btn-primary" id="quizSubmitBtn">提交答案</button>
+      </form>
+
+      <div id="registerResult" class="register-result hidden"></div>
+      <p id="registerErr" class="gate-err hidden" role="alert"></p>
+      <p id="registerHelp" class="gate-foot">资料只供成员内部使用。不确定答案时，请询问管理员。</p>
+    </section>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <img class="logo-img" src="./logo.svg" alt="校友通讯录">
+      <div><h1>校友通讯录</h1></div>
+    </div>
+    <div class="account-actions">
+      <span id="currentUser"></span>
+      <a id="adminLink" class="text-link hidden" href="./admin">管理后台</a>
+      <button id="changePasswordBtn" class="btn-secondary" type="button">修改密码</button>
+    </div>
+  </div>
+</header>
+
+<main id="searchView" class="wrap app-view">
+  <div id="passwordReminder" class="password-reminder hidden">
+    你还在使用初始密码，建议尽快修改。
+    <button id="reminderChangeBtn" type="button">现在修改</button>
+  </div>
+
+  <section class="search-panel">
+    <div class="search-box">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M21 21l-4.3-4.3M11 18a7 7 0 100-14 7 7 0 000 14z"/></svg>
+      <input id="q" type="text" autocomplete="off" placeholder="输入关键词、方向或姓名">
+      <button id="searchBtn" class="btn-primary">检索</button>
+    </div>
+    <div class="filters">
+      <label>入学年份<select id="fCohort"><option value="">全部</option></select></label>
+      <label>城市<select id="fCity"><option value="">全部</option></select></label>
+    </div>
+  </section>
+
+  <div class="results-head"><span id="loading" class="loading hidden">检索中…</span></div>
+  <section class="results">
+    <div id="cards" class="cards"></div>
+    <div id="state" class="state">
+      <svg class="state-ic" viewBox="0 0 24 24"><path d="M21 21l-4.3-4.3M11 18a7 7 0 100-14 7 7 0 000 14z"/></svg>
+      <p id="stateText">输入关键词、方向或姓名，开始检索校友</p>
+    </div>
+  </section>
+</main>
+
+<main id="profileView" class="wrap app-view hidden">
+  <section class="profile-page-head">
+    <div>
+      <p class="section-kicker">MY PROFILE</p>
+      <h2>我的资料</h2>
+      <p>资料保存后会立即更新到校友通讯录。姓名和账号如需修改，请联系管理员。</p>
+    </div>
+    <div class="profile-identity">
+      <strong id="profileIdentityName">—</strong>
+      <span id="profileIdentityUsername">—</span>
+    </div>
+  </section>
+
+  <section class="profile-editor">
+    <form id="profileForm">
+      <div class="profile-grid">
+        <label class="form-field">院系 / 校友身份
+          <input name="edu" type="text" maxlength="100" placeholder="例如：浙江大学管理学院">
+        </label>
+        <label class="form-field">届别
+          <input name="cohort" type="text" maxlength="40" placeholder="例如：2024 届">
+        </label>
+        <label class="form-field">当前状态
+          <input name="status" type="text" maxlength="60" placeholder="例如：工作、创业、在校">
+        </label>
+        <label class="form-field">行业 / 方向
+          <input name="industry" type="text" maxlength="120" placeholder="例如：人工智能、消费、投资">
+        </label>
+        <label class="form-field">公司 / 机构
+          <input name="org" type="text" maxlength="120" placeholder="例如：公司、学校或项目名称">
+        </label>
+        <label class="form-field">所在城市
+          <input name="city" type="text" maxlength="80" placeholder="例如：杭州">
+        </label>
+        <label class="form-field full">目前主要在做的事
+          <textarea name="doing" maxlength="300" placeholder="介绍目前的工作、项目或研究"></textarea>
+        </label>
+        <label class="form-field">是否愿意被其他校友联系
+          <select name="willingContact">
+            <option value="">暂未设置</option>
+            <option value="愿意">愿意</option>
+            <option value="不愿意">不愿意</option>
+          </select>
+        </label>
+        <label class="form-field">联系方式
+          <input name="contact" type="text" maxlength="200" placeholder="邮箱、微信或电话，仅授权范围内使用">
+        </label>
+        <label class="form-field full">可以提供的帮助
+          <textarea name="offer" maxlength="300"></textarea>
+        </label>
+        <label class="form-field full">希望获得的帮助
+          <textarea name="want" maxlength="300"></textarea>
+        </label>
+        <label class="form-field full">招聘 / 合作需求
+          <textarea name="hiring" maxlength="300"></textarea>
+        </label>
+        <label class="form-field full">想说的话
+          <textarea name="message" maxlength="500"></textarea>
+        </label>
+      </div>
+      <div class="profile-save-row">
+        <p>当前经历变化时会保留旧记录；误留的过去经历可在下方单独删除，最多保留 20 条经历。</p>
+        <button id="profileSaveBtn" class="btn-primary" type="submit">保存资料</button>
+      </div>
+      <p id="profileDraftNotice" class="profile-message hidden" role="status"></p>
+      <p id="profileMessage" class="profile-message hidden" role="status"></p>
+    </form>
+  </section>
+
+  <section class="timeline-panel">
+    <div class="timeline-heading">
+      <div><p class="section-kicker">TIMELINE</p><h2>个人经历</h2></div>
+      <span>过去经历可由本人删除</span>
+    </div>
+    <div id="profileTimeline" class="timeline-list"></div>
+  </section>
+</main>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<dialog id="profileReminder" class="profile-reminder" aria-labelledby="profileReminderTitle" aria-describedby="profileReminderText">
+  <h2 id="profileReminderTitle">最近有什么新变化？</h2>
+  <p id="profileReminderText">又到一年一度的资料检查时间了。工作、学习或所在城市有变化的话，可以更新一下，让校友了解你的近况。</p>
+  <p>现在不方便也没关系，之后随时可以在“我的资料”里修改。</p>
+  <div class="profile-reminder-actions">
+    <button id="profileReminderLater" type="button">暂时跳过</button>
+    <button id="profileReminderEdit" type="button" class="btn-primary">去更新资料</button>
+  </div>
+</dialog>
+
+<footer class="site-footer wrap">
+  <span id="sampleBadge"></span>
+  <span>
+    校友通讯录 · 数据仅在授权范围内使用 ·
+    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">浙ICP备2026071799号-1</a>
+    · <a href="#" id="logoutLink">退出登录</a>
+  </span>
+</footer>
+
+<nav id="bottomNav" class="bottom-nav" aria-label="主要功能">
+  <button id="searchNavBtn" class="bottom-nav-item active" type="button" aria-current="page">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 18a7 7 0 100-14 7 7 0 000 14z"/></svg>
+    <span>查询</span>
+  </button>
+  <button id="profileNavBtn" class="bottom-nav-item" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 00-16 0M12 13a5 5 0 100-10 5 5 0 000 10z"/></svg>
+    <span>我的资料</span>
+  </button>
+</nav>
+
+<script src="./drafts.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "_note": "虚构题库样例。真实内部题库只放入 data/runtime/question-seed.json，再通过迁移脚本写入私有存储。",
+  "questions": [
+    {
+      "id": "example-1",
+      "prompt": "这是一道虚构示例题？",
+      "options": ["是", "否"],
+      "correctIndex": 0,
+      "active": true,
+      "notes": "仅用于说明格式"
+    }
+  ]
+}

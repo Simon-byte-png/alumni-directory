@@ -1,0 +1,30 @@
+# 依赖（部署/导入时按需安装，不入库）
+node_modules/
+
+# 环境变量与本地备份
+.env
+.env.*
+!.env.example
+backups/
+
+# 机密与运行时状态：密码哈希、管理员、题库、锁定记录、会话密钥
+data/runtime/
+data/alumni.json
+data/account-seed.json
+data/question-seed.json
+data/pending-account-review.json
+data/auth-state.json
+data/auth-state.json.bak
+data/session.key
+
+# 名单原始导出和人工核对中间文件不进 Git
+data/roster-*.json
+data/roster-*.csv
+
+# 原始上传的 Excel（含联系方式等隐私原件）
+*.xlsx
+
+# 系统/编辑器杂项
+.DS_Store
+*.log
+npm-debug.log*

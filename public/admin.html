@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理后台</title>
+<link rel="icon" href="./logo.svg">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<div id="adminGate" class="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="./logo.svg" alt="校友通讯录">
+    <h2>管理后台</h2>
+    <p class="gate-sub">请使用管理员账号登录</p>
+    <form id="adminLoginForm" class="stack-form">
+      <label class="form-field">管理员账号<input id="adminUsername" autocomplete="username"></label>
+      <label class="form-field">管理员密码<input id="adminPassword" type="password" autocomplete="current-password"></label>
+      <button id="adminLoginBtn" class="btn-primary" type="submit">登录后台</button>
+    </form>
+    <p id="adminLoginErr" class="gate-err hidden"></p>
+    <p class="gate-foot"><a class="text-link" href="./">返回校友通讯录</a></p>
+  </div>
+</div>
+
+<main id="adminApp" class="wrap admin-shell hidden">
+  <header class="admin-header">
+    <div>
+      <h1>管理后台</h1>
+      <div id="adminIdentity" class="admin-muted"></div>
+    </div>
+    <nav class="admin-nav">
+      <a class="btn-secondary" href="./">返回通讯录</a>
+      <button id="adminLogout" class="btn-secondary" type="button">退出</button>
+    </nav>
+  </header>
+
+  <p id="adminMessage" class="admin-message hidden"></p>
+  <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="members" type="button">成员资料</button>
+    <button class="admin-tab" data-tab="analytics" type="button">访问统计</button>
+    <button class="admin-tab" data-tab="roster" type="button">已有校友名单</button>
+    <button class="admin-tab" data-tab="users" type="button">账号管理</button>
+    <button class="admin-tab" data-tab="questions" type="button">题库管理</button>
+    <button class="admin-tab" data-tab="locks" type="button">答题记录与锁定</button>
+    <button class="admin-tab" data-tab="registrations" type="button">新用户申请与注册资料</button>
+  </div>
+
+  <section id="membersPanel" class="admin-panel">
+    <div class="admin-toolbar"><div><h2>成员资料</h2><p class="admin-muted">查看已开户成员填写的完整资料。左边选人，右边看详情；空白项会标明“未填写”。</p></div><span id="memberCount" class="admin-muted"></span></div>
+    <div class="admin-filter-bar">
+      <label>成员来源<select id="memberSource"><option value="">全部已开户成员</option><option value="quiz-registration">新注册成员</option><option value="existing">原有成员</option></select></label>
+      <label class="admin-filter-search">搜索资料<input id="memberQuery" type="search" placeholder="姓名、账号、城市、行业、寄语或需求"></label>
+      <button id="refreshMembers" class="btn-secondary" type="button">刷新</button>
+    </div>
+    <div class="member-workspace">
+      <div id="memberList" class="member-list" aria-label="成员列表"></div>
+      <div id="memberDetail" class="member-detail" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="analyticsPanel" class="admin-panel hidden">
+    <div class="admin-toolbar"><div><h2>访问统计</h2><p class="admin-muted">统计从本功能上线后开始，不补算以前的访问。</p></div><button id="refreshAnalytics" class="btn-secondary" type="button">刷新</button></div>
+    <div class="analytics-stats">
+      <div class="analytics-stat"><span>今日访问次数</span><strong id="analyticsTodayViews">—</strong></div>
+      <div class="analytics-stat"><span>今日独立访客</span><strong id="analyticsTodayVisitors">—</strong></div>
+      <div class="analytics-stat"><span>近 7 天访问次数</span><strong id="analyticsWeekViews">—</strong></div>
+      <div class="analytics-stat"><span>累计访问次数</span><strong id="analyticsTotalViews">—</strong></div>
+    </div>
+    <p id="analyticsStatus" class="admin-muted analytics-note" role="status">正在加载访问数据…</p>
+    <h3 class="analytics-heading">最近 14 天</h3>
+    <div id="analyticsChart" class="analytics-chart" aria-label="最近 14 天每日访问次数"></div>
+    <div id="analyticsDays" class="analytics-days"></div>
+    <p class="admin-muted analytics-note">“访问次数”按通讯录页面打开次数统计；“独立访客”按浏览器估算，同一人换浏览器可能重复计算。不保存访客姓名或 IP。</p>
+  </section>
+
+  <section id="rosterPanel" class="admin-panel hidden">
+    <div class="admin-toolbar"><div><h2>已有校友名单</h2><p class="admin-muted">这里显示名单内的全部人员：已开户账号可以停用、恢复或重置密码；待核对姓名确认后再开户。</p></div><button id="exportRoster" class="btn-secondary" type="button">导出 CSV</button></div>
+    <div class="admin-filter-bar">
+      <label>名单状态<select id="rosterStatus"><option value="">全部</option><option value="account">已开户</option><option value="pending">待核对</option></select></label>
+      <label class="admin-filter-search">搜索<input id="rosterQuery" placeholder="姓名、账号、届别"></label>
+      <button id="refreshRoster" class="btn-secondary" type="button">刷新</button>
+    </div>
+    <div id="rosterSummary" class="admin-roster-summary"></div>
+    <div id="rosterList" class="roster-table"></div>
+  </section>
+
+  <section id="usersPanel" class="admin-panel hidden">
+    <div class="admin-toolbar"><div><h2>账号管理</h2><p class="admin-muted">新增、停用、恢复和重置单个账号。完整名单请看“已有校友名单”。</p></div><span id="userCount" class="admin-muted"></span></div>
+    <form id="createUserForm" class="admin-form-grid">
+      <label class="form-field">姓名<input id="newDisplayName" required></label>
+      <label class="form-field">届别<input id="newCohort" placeholder="可选"></label>
+      <label class="form-field">指定账号<input id="newUsername" placeholder="留空则按姓名生成"></label>
+      <div class="form-field"><span>&nbsp;</span><button class="btn-primary" type="submit">新增账号</button></div>
+    </form>
+    <div id="usersList" class="admin-list" style="margin-top:18px"></div>
+  </section>
+
+  <section id="questionsPanel" class="admin-panel hidden">
+    <div class="admin-toolbar"><h2>题库管理</h2><span id="questionCount" class="admin-muted"></span></div>
+    <form id="questionForm" class="admin-form-grid">
+      <input id="editingQuestionId" type="hidden">
+      <label class="form-field full">题干<textarea id="questionPrompt" required></textarea></label>
+      <label class="form-field full">选项（每行一个，2～6 个）<textarea id="questionOptions" required placeholder="选项 A&#10;选项 B&#10;选项 C&#10;选项 D"></textarea></label>
+      <label class="form-field">正确答案序号<input id="questionCorrectIndex" type="number" min="1" max="6" value="1" required></label>
+      <label class="form-field">内部备注<input id="questionNotes" placeholder="不会展示给答题者"></label>
+      <label class="check-row"><input id="questionActive" type="checkbox"><span>保存后立即启用</span></label>
+      <div class="admin-actions">
+        <button id="cancelQuestionEdit" class="btn-secondary hidden" type="button">取消编辑</button>
+        <button class="btn-primary" type="submit">保存题目</button>
+      </div>
+    </form>
+    <div id="questionsList" class="admin-list" style="margin-top:18px"></div>
+  </section>
+
+  <section id="locksPanel" class="admin-panel hidden">
+    <div class="admin-toolbar"><h2>答题记录与锁定</h2><button id="refreshLocks" class="btn-secondary" type="button">刷新</button></div>
+    <p class="admin-muted">同一姓名连续答错 5 次后，自助注册锁定 1 小时，管理员可以提前解锁。</p>
+    <div id="locksList" class="admin-list"></div>
+  </section>
+
+  <section id="registrationsPanel" class="admin-panel hidden">
+    <div class="admin-toolbar"><div><h2>新用户申请与注册资料</h2><p class="admin-muted">这里统一查看新用户的完整问卷、答题进度、账号和开户记录。答题通过后系统自动开户。</p></div><button id="exportRegistrations" class="btn-secondary" type="button">导出 CSV</button></div>
+    <div class="admin-filter-bar">
+      <label>状态<select id="registrationStatus"><option value="">全部</option><option value="pending">待处理</option><option value="locked">答题锁定</option><option value="approved">已通过</option><option value="rejected">已拒绝</option></select></label>
+      <label class="admin-filter-search">搜索<input id="registrationQuery" placeholder="姓名、届别、城市、行业"></label>
+      <button id="refreshRegistrations" class="btn-secondary" type="button">刷新</button>
+    </div>
+    <div id="registrationsList" class="registration-list"></div>
+  </section>
+</main>
+
+<script src="./admin.js"></script>
+</body>
+</html>
