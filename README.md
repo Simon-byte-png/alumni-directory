@@ -101,12 +101,12 @@ node import-xlsx.js "/绝对路径/校友表.xlsx"
 
 ### 账号种子
 
-只放姓名和账号，不放密码：
+只放姓名和账号，不放密码。仓库里的示例文件是空的，姓名由部署方自己写：
 
 ```json
 {
   "accounts": [
-    { "displayName": "张三", "username": "zhangsan" }
+    { "displayName": "姓名", "username": "登录账号" }
   ]
 }
 ```
@@ -141,20 +141,7 @@ node import-xlsx.js "/绝对路径/校友表.xlsx"
 
 ### 待核对名单
 
-可以不提供。提供时写成：
-
-```json
-{
-  "pending": [
-    {
-      "row": 1,
-      "displayName": "示例成员",
-      "username": "examplemember",
-      "reasons": ["重名，待人工确认"]
-    }
-  ]
-}
-```
+可以不提供。提供时每条自己写 `row`、`displayName`、`username` 和 `reasons`。仓库里的示例文件是空数组。
 
 ## 迁移和管理员
 
@@ -190,7 +177,7 @@ npm test
 npm start
 ```
 
-打开 <http://localhost:3000>。还没有 `data/runtime/alumni-import.json` 时，JSON 模式加载 `data/alumni.example.json`，里面只有一条虚构成员。
+打开 <http://localhost:3000>。还没有 `data/runtime/alumni-import.json` 时，JSON 模式加载 `data/alumni.example.json`。这个文件没有成员记录。
 
 ## 成员能看到哪些栏
 

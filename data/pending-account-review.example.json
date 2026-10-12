@@ -1,11 +1,4 @@
 {
-  "_note": "虚构待核对名单样例。真实名单只放入 data/runtime/pending-account-review.json。",
-  "pending": [
-    {
-      "row": 1,
-      "displayName": "示例成员",
-      "username": "examplemember",
-      "reasons": ["示例原因"]
-    }
-  ]
+  "_note": "正式文件名为 pending-account-review.json。本文件不提供任何姓名。",
+  "pending": []
 }

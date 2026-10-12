@@ -47,25 +47,25 @@
               <input id="registerName" name="name" type="text" autocomplete="name" maxlength="40" placeholder="只填中文名" required>
             </label>
             <label class="form-field">届别 *
-              <input id="registerCohort" name="cohort" type="text" maxlength="40" placeholder="例如：2024 届" required>
+              <input id="registerCohort" name="cohort" type="text" maxlength="40" required>
             </label>
             <label class="form-field">院系 / 校友身份 *
-              <input name="edu" type="text" maxlength="100" placeholder="例如：浙江大学管理学院" required>
+              <input name="edu" type="text" maxlength="100" required>
             </label>
             <label class="form-field">当前状态 *
-              <input name="status" type="text" maxlength="60" placeholder="例如：工作、创业、在校" required>
+              <input name="status" type="text" maxlength="60" required>
             </label>
             <label class="form-field">行业 / 方向 *
-              <input name="industry" type="text" maxlength="120" placeholder="例如：人工智能、消费、投资" required>
+              <input name="industry" type="text" maxlength="120" required>
             </label>
             <label class="form-field">公司 / 机构
               <input name="org" type="text" maxlength="120">
             </label>
             <label class="form-field full">目前主要在做的事 *
-              <textarea name="doing" maxlength="300" placeholder="简单介绍你目前的工作、项目或研究" required></textarea>
+              <textarea name="doing" maxlength="300" required></textarea>
             </label>
             <label class="form-field">所在城市 *
-              <input name="city" type="text" maxlength="80" placeholder="例如：杭州" required>
+              <input name="city" type="text" maxlength="80" required>
             </label>
             <label class="form-field">是否愿意被其他校友联系 *
               <select name="willingContact" required>
@@ -75,7 +75,7 @@
               </select>
             </label>
             <label class="form-field full">联系方式（至少填写邮箱） *
-              <input name="contact" type="text" maxlength="200" placeholder="例如：name@example.com（可同时填写微信/电话）" required>
+              <input name="contact" type="text" maxlength="200" required>
             </label>
             <label class="form-field full">可以提供的帮助
               <textarea name="offer" maxlength="300"></textarea>
@@ -170,25 +170,25 @@
     <form id="profileForm">
       <div class="profile-grid">
         <label class="form-field">院系 / 校友身份
-          <input name="edu" type="text" maxlength="100" placeholder="例如：浙江大学管理学院">
+          <input name="edu" type="text" maxlength="100">
         </label>
         <label class="form-field">届别
-          <input name="cohort" type="text" maxlength="40" placeholder="例如：2024 届">
+          <input name="cohort" type="text" maxlength="40">
         </label>
         <label class="form-field">当前状态
-          <input name="status" type="text" maxlength="60" placeholder="例如：工作、创业、在校">
+          <input name="status" type="text" maxlength="60">
         </label>
         <label class="form-field">行业 / 方向
-          <input name="industry" type="text" maxlength="120" placeholder="例如：人工智能、消费、投资">
+          <input name="industry" type="text" maxlength="120">
         </label>
         <label class="form-field">公司 / 机构
-          <input name="org" type="text" maxlength="120" placeholder="例如：公司、学校或项目名称">
+          <input name="org" type="text" maxlength="120">
         </label>
         <label class="form-field">所在城市
-          <input name="city" type="text" maxlength="80" placeholder="例如：杭州">
+          <input name="city" type="text" maxlength="80">
         </label>
         <label class="form-field full">目前主要在做的事
-          <textarea name="doing" maxlength="300" placeholder="介绍目前的工作、项目或研究"></textarea>
+          <textarea name="doing" maxlength="300"></textarea>
         </label>
         <label class="form-field">是否愿意被其他校友联系
           <select name="willingContact">
@@ -198,7 +198,7 @@
           </select>
         </label>
         <label class="form-field">联系方式
-          <input name="contact" type="text" maxlength="200" placeholder="邮箱、微信或电话，仅授权范围内使用">
+          <input name="contact" type="text" maxlength="200">
         </label>
         <label class="form-field full">可以提供的帮助
           <textarea name="offer" maxlength="300"></textarea>
@@ -252,8 +252,7 @@
   <span id="sampleBadge"></span>
   <span>
     校友通讯录 · 数据仅在授权范围内使用 ·
-    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">浙ICP备2026071799号-1</a>
-    · <a href="#" id="logoutLink">退出登录</a>
+    <a href="#" id="logoutLink">退出登录</a>
   </span>
 </footer>
 

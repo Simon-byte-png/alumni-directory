@@ -1,13 +1,4 @@
 {
-  "_note": "正式文件名为 account-seed.json。这里只保存姓名和账号，不保存密码或密码哈希。",
-  "accounts": [
-    {
-      "displayName": "张三",
-      "username": "zhangsan"
-    },
-    {
-      "displayName": "张三",
-      "username": "zhangsan2"
-    }
-  ]
+  "_note": "正式文件名为 account-seed.json。每条只放 displayName 和 username，不放密码。本文件不提供任何姓名。",
+  "accounts": []
 }
