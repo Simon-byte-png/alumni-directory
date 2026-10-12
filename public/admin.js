@@ -358,7 +358,7 @@ async function loadQuestions() {
 function resetQuestionForm() {
   els.questionForm.reset();
   els.editingQuestionId.value = '';
-  els.questionCorrectIndex.value = '1';
+  els.questionCorrectIndex.value = '';
   els.cancelQuestionEdit.classList.add('hidden');
 }
 

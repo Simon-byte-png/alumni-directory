@@ -103,8 +103,8 @@
     <form id="questionForm" class="admin-form-grid">
       <input id="editingQuestionId" type="hidden">
       <label class="form-field full">题干<textarea id="questionPrompt" required></textarea></label>
-      <label class="form-field full">选项（每行一个，2～6 个）<textarea id="questionOptions" required placeholder="选项 A&#10;选项 B&#10;选项 C&#10;选项 D"></textarea></label>
-      <label class="form-field">正确答案序号<input id="questionCorrectIndex" type="number" min="1" max="6" value="1" required></label>
+      <label class="form-field full">选项（每行一个，2～6 个）<textarea id="questionOptions" required placeholder="每行写一个自己的选项"></textarea></label>
+      <label class="form-field">正确答案序号<input id="questionCorrectIndex" type="number" min="1" max="6" required placeholder="由出题人填写"></label>
       <label class="form-field">内部备注<input id="questionNotes" placeholder="不会展示给答题者"></label>
       <label class="check-row"><input id="questionActive" type="checkbox"><span>保存后立即启用</span></label>
       <div class="admin-actions">
@@ -122,7 +122,7 @@
   </section>
 
   <section id="registrationsPanel" class="admin-panel hidden">
-    <div class="admin-toolbar"><div><h2>新用户申请与注册资料</h2><p class="admin-muted">这里统一查看新用户的完整问卷、答题进度、账号和开户记录。答题通过后系统自动开户。</p></div><button id="exportRegistrations" class="btn-secondary" type="button">导出 CSV</button></div>
+    <div class="admin-toolbar"><div><h2>新用户申请与注册资料</h2><p class="admin-muted">这里查看新用户填写的资料和答题进度。题目由本组织自己编写，答题通过后系统自动开户。</p></div><button id="exportRegistrations" class="btn-secondary" type="button">导出 CSV</button></div>
     <div class="admin-filter-bar">
       <label>状态<select id="registrationStatus"><option value="">全部</option><option value="pending">待处理</option><option value="locked">答题锁定</option><option value="approved">已通过</option><option value="rejected">已拒绝</option></select></label>
       <label class="admin-filter-search">搜索<input id="registrationQuery" placeholder="姓名、届别、城市、行业"></label>
